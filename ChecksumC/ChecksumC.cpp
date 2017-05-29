@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "iostream"
+#include "vector"
 
 unsigned short SettingsChecksum(void *Start, unsigned short Count)
 {
@@ -21,28 +22,30 @@ unsigned short SettingsChecksum(void *Start, unsigned short Count)
 	return ~Sum;
 }
 
+void PrintChecksum(void *data)
+{
+	unsigned short result = SettingsChecksum(data, 20);
+	printf("Checksum is: %1i\n", result);
+}
+
 int main()
 {
-	unsigned short structure[16] = { 
+	unsigned short structure[20] = { 
 		0x2800, 0xE803, 0x0100, 0x0000, 
-		0x0000, 0x0000, 0x0000, 0xFFFF, 
-		0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 
-		0xFFFF, 0xFFFF, 0xFFFF, 0x0000 };
-	unsigned char structure2[38] = { 
+		0x0000, 0x0000, 0x0000, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 
+		0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0x0000, 0x0000 };
+	unsigned char structure2[40] = { 
 		0x28, 0x00, 0xC8, 0x00, 0x01, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00 };
 	unsigned long structure3[10] = {
 		0x1400E803, 0x01000000,
 		0x00000000, 0x0000FFFF, 0xFFFFFFFF, 0xFFFFFFFF,
-		0xFFFFFFFF, 0xFFFFFFFF, 0xFFFF0000, 0x00000000
+		0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x0000
 	};
-	unsigned short result = SettingsChecksum(structure, 16);
-	printf("Checksum is: %1i\n", result);
-	result = SettingsChecksum(structure2, 16);
-	printf("Checksum is: %1i\n", result);
-	result = SettingsChecksum(structure3, 16);
-	printf("Checksum is: %1i\n", result);
+	PrintChecksum(structure);
+	PrintChecksum(structure2);
+	PrintChecksum(structure3);
 	int x;
 	std::cin >> x;
 }
