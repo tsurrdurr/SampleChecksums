@@ -25,7 +25,7 @@ unsigned short SettingsChecksum(void *Start, unsigned short Count)
 void PrintChecksum(void *data)
 {
 	unsigned short result = SettingsChecksum(data, 20);
-	printf("Checksum is: %1i\n", result);
+	printf("Checksum is: %04X\n", result);
 }
 
 int main()
